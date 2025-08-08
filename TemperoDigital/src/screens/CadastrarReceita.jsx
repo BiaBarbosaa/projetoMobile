@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
-function Home({ navigation }) {
+function CadastrarReceita({ navigation }) {
   return (
     <View style={styles.container}>
 
@@ -30,7 +30,7 @@ function Home({ navigation }) {
           </View>
           <TouchableOpacity
             style={styles.botaoNovaReceita}
-            onPress={() => navigation.navigate("CadastrarReceita")}
+            onPress={() => navigation.navigate("Cadastro")}
           >
             <Text style={styles.textoBotao}>+   Nova Receita</Text>
           </TouchableOpacity>
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   botaoNovaReceita: {
-    backgroundColor: "#F8E7C1",
+    backgroundColor: "#f43ec3",
     borderWidth: 1,               // OBRIGATÓRIO
     borderColor: "#E6AF2E",       
     borderStyle: 'solid',         // Para iOS
@@ -155,4 +155,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default CadastrarReceita;

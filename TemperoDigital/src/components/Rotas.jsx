@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "@react-native-vector-icons/ionicons";
 import Home from "../screens/Home";
+import { Text, View } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
@@ -9,11 +10,12 @@ export default function Rotas() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "#ff238a",
+        tabBarActiveTintColor: "#2D545E",
         tabBarInactiveTintColor: "#ff86bf",
         tabBarStyle: {
           backgroundColor: "#ffffff",
         },
+        tabBarLabelPosition: 'beside-icon', // Esta propriedade coloca o rótulo ao lado do ícone
       }}
     >
       <Tab.Screen 
@@ -22,7 +24,9 @@ export default function Rotas() {
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="home" color={color} size={size} />
-          
+          ),
+          tabBarLabel: ({ color }) => (
+            <Text style={{ color, marginLeft: 4 }}>Home</Text>
           )
         }}
       />
