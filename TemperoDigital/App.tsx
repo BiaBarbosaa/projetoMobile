@@ -1,25 +1,42 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Rotas from "./src/components/Rotas";
-import Login from "./src/screens/Login";
-import Cadastro from "./src/screens/Cadastro";
-import Home from "./src/screens/Home";
-import CadastrarReceita from "./src/screens/CadastrarReceita";
+import React, { useEffect, useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-//deixar as rotas assim por enquanto
+import RegisterScreen from './src/screens/RegisterScreen';
+import LoginScreen from './src/screens/LoginScreen';
+import HomeScreen from './src/screens/HomeScreen';
+import RecipeScreen from './src/screens/RecipeScreen';
+import EditRecipeScreen from './src/screens/EditRecipeScreen';
+
 const Stack = createNativeStackNavigator();
-function App() {
+const Tab = createBottomTabNavigator();
+
+function MainTabs() {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: { height: 60, paddingBottom: 8 },
+      }}
+    >
+      <Tab.Screen name="Home" component={HomeScreen} />
+      {/* botão + poderia abrir uma modal de nova receita */}
+    </Tab.Navigator>
+  );
+}
+
+export default function App() {
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-        <Stack.Screen name="Cadastro" component={Cadastro} options={{ headerShown: false }} />
-        <Stack.Screen name="Rotas" component={Rotas} options={{ headerShown: false }} />
-        <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-        <Stack.Screen name="CadastrarReceita" component={CadastrarReceita} options={{ headerShown: false }} />
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="MainTabs" component={MainTabs} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="Recipe" component={RecipeScreen} />
+        <Stack.Screen name="EditRecipe" component={EditRecipeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-export default App;
