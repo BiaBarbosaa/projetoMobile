@@ -7,45 +7,43 @@ function Home({ navigation }) {
   const [receitas, setReceitas] = useState([]);
 
   const carregarReceitas = () => {
-    axios.get('http://10.0.2.2:3002/receitas')
+    axios.get('http://10.0.2.2:3002/listar')
       .then(response => {
         const sortedData = response.data.sort((a, b) => a.id - b.id);
         setReceitas(sortedData);
       })
       .catch(error => {
-        console.log('Erro ao carregar receitas:', error);
+        console.log(JSON.stringify(error));
       });
   };
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      carregarReceitas();
-    });
-    return unsubscribe;
-  }, [navigation]);
+    carregarReceitas();
+  }, []);
 
   const handleEditar = (id) => {
     navigation.navigate('EditarReceita', { id });
   };
 
-  const handleExcluir = (id, nome) => {
+  const handleExcluir = (id) => {
     Alert.alert(
       'Confirmar Exclusão',
-      `Tem certeza que deseja excluir a receita "${nome}"?`,
+      `Tem certeza que deseja excluir a receita "?`,
       [
         { text: 'Cancelar', style: 'cancel' },
         {
           text: 'Excluir',
           style: 'destructive',
           onPress: () => {
-            axios.delete(`http://10.0.2.2:3002/receitas/${id}`)
+            axios.delete(`http://10.0.2.2:3002/deletar/${id}`)
               .then(() => {
                 Alert.alert('Sucesso', 'Receita excluída com sucesso.');
                 carregarReceitas();
               })
               .catch(error => {
                 console.log(error);
-                Alert.alert('Erro', 'Erro ao excluir receita.');
+                Alert.alert('Erro', 'Erro ao excluir usuário.');
+                console.log(error);
               });
           }
         }
@@ -53,28 +51,20 @@ function Home({ navigation }) {
     );
   };
 
-  const handleVisualizarReceita = (receita) => {
-    navigation.navigate('DetalhesReceita', { receita });
-  };
+  
 
   const renderReceita = ({ item }) => (
     <TouchableOpacity 
       style={styles.receitaCard}
-      onPress={() => handleVisualizarReceita(item)}
       activeOpacity={0.7}
     >
-      <View style={styles.receitaContent}>
-        <View style={styles.receitaIconContainer}>
-          <Icon name="restaurant-outline" size={30} color="#E6AF2E" />
-        </View>
-        
+      <View style={styles.receitaContent}>        
         <View style={styles.receitaInfo}>
-          <Text style={styles.receitaNome} numberOfLines={1}>
+          <Text style={styles.receitaNome}>
             {item.nome}
           </Text>
           <View style={styles.receitaDetalhes}>
-            <Icon name="time-outline" size={14} color="#828686" />
-            <Text style={styles.receitaTempo}>{item.tempoPreparo}</Text>
+            <Text style={styles.receitaTempo}>Tempo de preparo: {item.tempo_preparo}</Text>
           </View>
         </View>
 
@@ -94,16 +84,6 @@ function Home({ navigation }) {
         </View>
       </View>
     </TouchableOpacity>
-  );
-
-  const renderListaVazia = () => (
-    <View style={styles.listaVazia}>
-      <Icon name="book-outline" size={60} color="#EBEBEB" />
-      <Text style={styles.textoVazio}>Nenhuma receita cadastrada</Text>
-      <Text style={styles.subtextoVazio}>
-        Comece adicionando sua primeira receita!
-      </Text>
-    </View>
   );
 
   return (
@@ -143,7 +123,6 @@ function Home({ navigation }) {
       <View style={styles.containerReceitas}>
         <View style={styles.headerReceitas}>
           <Text style={styles.titulo2}>Receitas</Text>
-          <Text style={styles.contadorReceitas}>({receitas.length})</Text>
         </View>
 
         <FlatList
@@ -151,8 +130,6 @@ function Home({ navigation }) {
           renderItem={renderReceita}
           keyExtractor={item => item.id.toString()}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={receitas.length === 0 && styles.flatListVazia}
-          ListEmptyComponent={renderListaVazia}
         />
       </View>
     </View>
@@ -189,7 +166,6 @@ const styles = StyleSheet.create({
   },
   titulo: {
     fontSize: 30,
-    fontFamily: "PinyonScript-Regular",
     fontWeight: "bold",
     marginTop: 5,
   },
@@ -258,12 +234,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 15,
   },
-  contadorReceitas: {
-    fontSize: 18,
-    color: "#B7B7B7",
-    marginLeft: 8,
-    fontWeight: "500",
-  },
+
   receitaCard: {
     backgroundColor: "#ffffff",
     borderRadius: 20,
@@ -281,24 +252,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 15,
   },
-  receitaIconContainer: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: "#FFF9E6",
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
+ 
   receitaInfo: {
     flex: 1,
   },
   receitaNome: {
-    fontSize: 16,
-    fontWeight: "600",
+    fontSize: 20,
+    fontWeight: "semi-bold",
     color: "#000",
     marginBottom: 5,
-    fontFamily: "Poppins-Regular",
   },
   receitaDetalhes: {
     flexDirection: 'row',
@@ -306,7 +268,7 @@ const styles = StyleSheet.create({
   },
   receitaTempo: {
     fontSize: 13,
-    color: "#828686",
+    color: "#697474",
     marginLeft: 5,
   },
   acoesBotoes: {
@@ -322,15 +284,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
     borderColor: '#EBEBEB',
-  },
-  flatListVazia: {
-    flexGrow: 1,
-    justifyContent: 'center',
-  },
-  listaVazia: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 40,
   },
   textoVazio: {
     fontSize: 18,

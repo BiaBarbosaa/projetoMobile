@@ -1,22 +1,48 @@
 import React, { useState } from "react";
 import { View,Text, StyleSheet, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import axios from 'axios';
 
-function CadastrarReceita({ navigation }) {
-  const [nomeReceita, setNomeReceita] = useState("");
-  const [tempoPreparo, setTempoPreparo] = useState("");
-  const [ingredientes, setIngredientes] = useState("");
-  const [modoPreparo, setModoPreparo] = useState("");
+const Cadastrar = ({ navigation }) => {
+  // const [mensagem, setMensagem] = useState('');
+  const [formData, setFormData] = useState({
+    nome: '',
+    tempo_preparo: '',
+    ingredientes: '',
+    modo_preparo: '',
+  });
 
-  const salvarReceita = () => {
-    //  lógica para salvar a receita
-    console.log({
-      nome: nomeReceita,
-      tempo: tempoPreparo,
-      ingredientes: ingredientes,
-      modo: modoPreparo
-    });
-    navigation.goBack();
+  const handleInputChange = (name, value) => {
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleCadastrar = async () => {
+    if (!formData.nome || !formData.tempo_preparo || !formData.ingredientes || !formData.modo_preparo) {
+      setMensagem('Todos os campos são obrigatórios!');
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://10.0.2.2:3002/cadastrar', formData);
+
+      if (response.status === 201) {
+        setFormData('')
+        setMensagem('Cadastro efetuado com sucesso!!!');
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 403) {
+          setMensagem('Erro de autenticação ao cadastrar!');
+        } else {
+          console.log(error)
+          setMensagem('Erro ao cadastrar');
+        }
+      } else if (error.request) {
+        setMensagem('Não foi possível conectar-se ao servidor. Verifique sua conexão ou se a API está ativa.');
+      } else {
+        setMensagem('Erro inesperado: ' + error.message);
+      }
+    }
   };
 
   return (
@@ -35,19 +61,21 @@ function CadastrarReceita({ navigation }) {
         <View style={styles.containerForm}>
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Nome da Receita</Text>
+            
             <TextInput
               style={styles.input}
-              value={nomeReceita}
-              onChangeText={setNomeReceita}
-            />
+              value={formData.nome}
+              onChangeText={(text) => handleInputChange('nome', text)}
+              
+              />
           </View>
 
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Tempo de Preparo</Text>
             <TextInput
               style={styles.input}
-              value={tempoPreparo}
-              onChangeText={setTempoPreparo}
+              onChangeText={(text) => handleInputChange('tempo_preparo', text)}
+              value={formData.tempo_preparo}
             />
           </View>
 
@@ -55,8 +83,8 @@ function CadastrarReceita({ navigation }) {
             <Text style={styles.label}>Ingredientes</Text>
             <TextInput
               style={[styles.input, styles.textArea]}
-              value={ingredientes}
-              onChangeText={setIngredientes}
+              onChangeText={(text) => handleInputChange('ingredientes', text)}
+        value={formData.ingredientes}
               multiline
               numberOfLines={6}
               textAlignVertical="top"
@@ -67,8 +95,8 @@ function CadastrarReceita({ navigation }) {
             <Text style={styles.label}>Modo de Preparo</Text>
             <TextInput
               style={[styles.input, styles.textArea]}
-              value={modoPreparo}
-              onChangeText={setModoPreparo}
+              onChangeText={(text) => handleInputChange('modo_preparo', text)}
+              value={formData.modo_preparo}
               multiline
               numberOfLines={8}
               textAlignVertical="top"
@@ -87,7 +115,7 @@ function CadastrarReceita({ navigation }) {
 
         <TouchableOpacity
           style={styles.botaoSalvar}
-          onPress={salvarReceita}
+          onPress={handleCadastrar}          
         >
           <Text style={styles.textoBotaoSalvar}>Salvar Receita</Text>
         </TouchableOpacity>
@@ -189,4 +217,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CadastrarReceita;
+export default Cadastrar;
