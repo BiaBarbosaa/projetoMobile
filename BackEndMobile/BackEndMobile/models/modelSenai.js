@@ -17,12 +17,8 @@ const modelSenai = {
         }
     },
 
-    // //Obter NIF
-    // consultarNIF: async (nif) => {
-
-    //     const result = await executeQuery("SELECT * FROM  cadastrar_colaboradores WHERE nif = ?", [nif]);
-    //     return result;
-    // },
+    
+    
 
     //Listar
     listar: async () => {
@@ -38,9 +34,9 @@ const modelSenai = {
     },
 
     //Listar usuário por ID
-    // listarPorID: async (id) => {
-    //     return await executeQuery('SELECT id FROM cadastrar_colaboradores WHERE id=?', [id]);
-    // },
+    listarPorID: async (id) => {
+        return await executeQuery('SELECT id FROM receita WHERE id=?', [id]);
+    },
 
     //Atualizar
     atualizar: async (nome, tempo_preparo, ingredientes, modo_preparo, id) => {

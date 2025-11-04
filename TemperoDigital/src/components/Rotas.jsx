@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "@react-native-vector-icons/ionicons";
 import Home from "../screens/Home";
+import Atualizar from "../screens/Atualizar";
 import { Text, View } from "react-native";
 
 const Tab = createBottomTabNavigator();
@@ -30,6 +31,8 @@ export default function Rotas() {
           )
         }}
       />
+              <Tab.Screen name="Atualizar" component={Atualizar} options={{ headerShown: false }} />
+
     </Tab.Navigator>
   );
 }

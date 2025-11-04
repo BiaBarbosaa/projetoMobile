@@ -22,13 +22,13 @@ function Home({ navigation }) {
   }, []);
 
   const handleEditar = (id) => {
-    navigation.navigate('EditarReceita', { id });
+    navigation.navigate('Atualizar', { id });
   };
 
   const handleExcluir = (id) => {
     Alert.alert(
       'Confirmar Exclusão',
-      `Tem certeza que deseja excluir a receita "?`,
+      `Tem certeza que deseja excluir a receita ?`,
       [
         { text: 'Cancelar', style: 'cancel' },
         {

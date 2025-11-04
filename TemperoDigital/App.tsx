@@ -5,6 +5,7 @@ import Login from "./src/screens/Login";
 import Cadastro from "./src/screens/Cadastro";
 import Home from "./src/screens/Home";
 import CadastrarReceita from "./src/screens/CadastrarReceita";
+import Atualizar from "./src/screens/Atualizar";
 
 //deixar as rotas assim por enquanto
 const Stack = createNativeStackNavigator();
@@ -17,6 +18,8 @@ function App() {
         <Stack.Screen name="Rotas" component={Rotas} options={{ headerShown: false }} />
         <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
         <Stack.Screen name="CadastrarReceita" component={CadastrarReceita} options={{ headerShown: false }} />
+        <Stack.Screen name="Atualizar" component={Atualizar} options={{ headerShown: false }} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

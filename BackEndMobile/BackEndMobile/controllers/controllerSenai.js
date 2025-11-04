@@ -73,6 +73,7 @@ const controllerSenai = {
             }
         }
         catch (erro) {
+            console.log(erro)
             res.status(500).json({ error: 'Erro ao tentar deletar' });
         }
     },
