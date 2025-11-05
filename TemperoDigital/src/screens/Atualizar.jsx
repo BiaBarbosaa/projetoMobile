@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert,ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView } from 'react-native';
 import axios from 'axios';
 
-const Atualizar = ({ navigation, route}) => {
+const Atualizar = ({ navigation, route }) => {
   const [nome, setNome] = useState('');
   const [tempo_preparo, setTempo_preparo] = useState('');
   const [ingredientes, setIngredientes] = useState('');
@@ -44,87 +44,80 @@ const Atualizar = ({ navigation, route}) => {
 
           Alert.alert('Erro', 'Ocorreu um erro ao atualizar o usuário. Por favor, tente novamente.');
         }
-      });      
+      });
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.containerHeader}>
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-              </TouchableOpacity>
-              <Text style={styles.titulo}>Atualizar Receita</Text>
-              <View style={{ width: 28 }} />
-            </View>
-      
-            <ScrollView 
-              style={styles.scrollView}
-              showsVerticalScrollIndicator={false}
-            >
-              <View style={styles.containerForm}>
-                <View style={styles.inputGroup}>
-                  <Text style={styles.label}>Nome da Receita</Text>
-                  
-                  <TextInput
-                    style={styles.input}
-                    value={setNome}
-                    onChangeText={setNome}
-                    
-                    />
-                </View>
-      
-                <View style={styles.inputGroup}>
-                  <Text style={styles.label}>Tempo de Preparo</Text>
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={setTempo_preparo}
-                    value={setTempo_preparo}
-                  />
-                </View>
-      
-                <View style={styles.inputGroup}>
-                  <Text style={styles.label}>Ingredientes</Text>
-                  <TextInput
-                    style={[styles.input, styles.textArea]}
-                    onChangeText={setIngredientes}
-              value={setIngredientes}
-                    multiline
-                    numberOfLines={6}
-                    textAlignVertical="top"
-                  />
-                </View>
-      
-                <View style={styles.inputGroup}>
-                  <Text style={styles.label}>Modo de Preparo</Text>
-                  <TextInput
-                    style={[styles.input, styles.textArea]}
-                    onChangeText={setModo_preparo}
-                    value={setModo_preparo}
-                    multiline
-                    numberOfLines={8}
-                    textAlignVertical="top"
-                  />
-                </View>
-              </View>
-            </ScrollView>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+        </TouchableOpacity>
+        <Text style={styles.titulo}>Atualizar Receita</Text>
+        <View style={{ width: 28 }} />
+      </View>
+
+      <ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.containerForm}>
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Nome da Receita</Text>
+
+            <TextInput
+              style={styles.input}
+              value={nome}
+              onChangeText={setNome}
+            />
+          </View>
+
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Tempo de Preparo</Text>
+            <TextInput
+              style={styles.input}
+              value={tempo_preparo}
+              onChangeText={setTempo_preparo}
+            />
+          </View>
+
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Ingredientes</Text>
+            <TextInput
+              style={[styles.input, styles.textArea]}
+              value={ingredientes}
+              onChangeText={setIngredientes}
+            />
+          </View>
+
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Modo de Preparo</Text>
+           <TextInput
+  style={[styles.input, styles.textArea]}
+  value={modo_preparo}
+  onChangeText={setModo_preparo}
+/>
+          </View>
+        </View>
+      </ScrollView>
 
 
 
 
       <View style={styles.containerBotoes}>
-              <TouchableOpacity
-                style={styles.botaoCancelar}
-                onPress={() => navigation.goBack()}
-              >
-                <Text style={styles.textoBotaoCancelar}>Cancelar</Text>
-              </TouchableOpacity>
-      
-              <TouchableOpacity
-                style={styles.botaoSalvar}
-                onPress={handleAtualizar}          
-              >
-                <Text style={styles.textoBotaoSalvar}>Atualizar Receita</Text>
-              </TouchableOpacity>
-            </View>
+        <TouchableOpacity
+          style={styles.botaoCancelar}
+          onPress={() => navigation.goBack()}
+        >
+          <Text style={styles.textoBotaoCancelar}>Cancelar</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.botaoSalvar}
+          onPress={handleAtualizar}
+        >
+          <Text style={styles.textoBotaoSalvar}>Atualizar Receita</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
